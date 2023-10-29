@@ -1,8 +1,9 @@
-
-/**
- * RoadController.java
- *
- *
+/*
+ * Name: Thomas Nguyen and Nathan Do
+ * Course: CECS 326
+ * Due Date: 10/29/2023
+ * Assignment: Project 3
+ * File name: RoadController.java
  */
 
 import java.util.ArrayList;
@@ -14,17 +15,20 @@ public class RoadController {
    // Create a queue of threads
    static ArrayList<Thread> thread_queue = new ArrayList<>();
 
+   // Create a queue of identities to match with the threads for printing purposes
    static ArrayList<String> villager_identity = new ArrayList<>();
 
+   // Create a lock and condition for the road
    static ReentrantLock road = new ReentrantLock();
-
    static Condition condition = road.newCondition();
 
    public static void enter_identity(String identity) {
+      // method to add identity to the queue, call from village classes
       villager_identity.add(identity);
    }
 
    public static void enter_queue(Thread T) {
+      // method to add identity to the queue, call from village classes
       thread_queue.add(T);
    }
 
@@ -43,6 +47,7 @@ public class RoadController {
          e.printStackTrace();
       }
       System.out.println(identity + " is done with the road. They are leaving the road now.");
+      condition.signalAll();
       road.unlock();
    }
 
